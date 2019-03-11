@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.4//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdgq.estimate.dao.AdminDao">
+    <resultMap id="admins" type="Admins">
+        <id property="id" column="id" javaType="String"/>
+        <result property="username" column="username" javaType="String"/>
+        <result property="password" column="password" javaType="String"/>
+        <result property="power" column="power" javaType="String"/>
+        <result property="role" column="role" javaType="String"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="Admins" useGeneratedKeys="true" keyProperty="id">
+        insert into admins(username,password,power,role) value (#{username},#{password},#{power},#{role})
+    </insert>
+
+    <select id="findAll" resultMap="admins">
+        select t.* from admins t
+    </select>
+
+    <select id="findByParams" resultMap="admins" parameterType="com.zdgq.estimate.entity.Admins">
+        select t.* from admins t where 1=1
+        <if test="username!=null">
+            and t.username = #{username}
+        </if>
+        <if test="power!=null">
+            and t.power = #{power}
+        </if>
+        order by t.id desc
+    </select>
+
+    <select id="findOneById" parameterType="String" resultMap="admins">
+        select t.* from admins t where t.id = #{id}
+    </select>
+
+</mapper>
